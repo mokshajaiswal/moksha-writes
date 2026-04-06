@@ -23,9 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('dots-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
+    const dotsContainer = canvas.parentElement;
     let dots = [];
     let dpr = window.devicePixelRatio || 1;
-    const spacing = 35;
+    let spacing = 35;
+    let edgeBuffer = 96;
     const baseRadius = 2.4;
     const maxRadius = 55; // Large for overlapping effect
     const proximity = 220;
@@ -58,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dx = relMouseX - this.baseX;
         const dy = relMouseY - this.baseY;
         const distance = Math.sqrt(dx * dx + dy * dy);
+        const safeDistance = Math.max(distance, 0.001);
 
         const now = Date.now();
 
@@ -68,8 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
           this.targetRadius = baseRadius + (maxRadius - baseRadius) * power;
 
-          this.x = this.baseX - (dx / distance) * (displaceAmount * power);
-          this.y = this.baseY - (dy / distance) * (displaceAmount * power);
+          this.x = this.baseX - (dx / safeDistance) * (displaceAmount * power);
+          this.y = this.baseY - (dy / safeDistance) * (displaceAmount * power);
         } else if (now - this.lastHover < hoverSustain) {
           // Seamless sustain decay
           const sustainRatio = (now - this.lastHover) / hoverSustain;
@@ -88,32 +91,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initCanvas() {
+      const rootStyles = getComputedStyle(document.documentElement);
+      const spacingVar = parseFloat(rootStyles.getPropertyValue('--dot-grid-spacing'));
+      const edgeBufferVar = parseFloat(rootStyles.getPropertyValue('--dot-overflow-buffer'));
+      spacing = Number.isFinite(spacingVar) && spacingVar > 0 ? spacingVar : 35;
+      edgeBuffer = Number.isFinite(edgeBufferVar) && edgeBufferVar >= 0 ? edgeBufferVar : 96;
+
       const rect = canvas.getBoundingClientRect();
-      const inner = document.querySelector('.inner');
+      const containerRect = dotsContainer.getBoundingClientRect();
+      const inner = document.querySelector('.hero .inner') || document.querySelector('nav .inner');
       const innerRect = inner.getBoundingClientRect();
 
       dpr = window.devicePixelRatio || 1;
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
-
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       dots = [];
-      const rows = 11; // Increased for a fuller look
-      const spacingRow = 35;
-      const spacingCol = 35;
-      const bleedY = 150; // Match the top-offset in CSS
-      
-      // Calculate how many columns fit within the content width precisely
-      const cols = Math.floor((innerRect.width - 20) / spacingCol) + 1;
-      
-      // ALIGNMENT: Start exactly at the branding's left edge
-      const startX = innerRect.left; 
-      const startY = bleedY + 30; // 30px down from the top of the container
+      const contentWidth = Math.min(innerRect.width, containerRect.width);
+      const sideInset = Math.max((containerRect.width - contentWidth) / 2, 0);
+      const startX = edgeBuffer + sideInset + spacing / 2;
+      const startY = edgeBuffer + spacing / 2;
+      const cols = Math.max(Math.floor((contentWidth - spacing) / spacing) + 1, 1);
+      const rows = Math.max(Math.floor((containerRect.height - spacing) / spacing) + 1 + 2, 1);
 
       for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
-          dots.push(new Dot(startX + j * spacingCol, startY + i * spacingRow));
+          dots.push(new Dot(startX + j * spacing, startY + i * spacing));
         }
       }
     }

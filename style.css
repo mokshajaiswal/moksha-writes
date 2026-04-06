@@ -73,6 +73,13 @@
   --ink-light: #A4A09A;
   --border-soft: rgba(27, 23, 20, 0.08);
   --content-width: clamp(60%, 85%, 94%);
+  --dot-grid-spacing: 35px;
+  --dot-overflow-buffer: 128px;
+  --hero-flower-bottom-offset: 35px;
+  --hero-flower-horizontal-offset: 24px;
+  --hero-sub-desktop-y-offset: 150px;
+  --hero-heading-line-height: 1.07;
+  --hero-heading-reserved-lines-prebreak: 4;
 }
 
 html,
@@ -128,7 +135,7 @@ body {
 
 /* ── PAGE WRAPPER ── */
 .page {
-  position: relative;
+  position: static;
   z-index: 1;
   height: 100%;
   display: flex;
@@ -301,7 +308,7 @@ nav .inner {
 }
 
 .hero .inner {
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: clamp(16px, 3vw, 48px);
 }
@@ -310,19 +317,20 @@ nav .inner {
   display: flex;
   align-items: flex-end;
   gap: clamp(12px, 2vw, 32px);
+  padding-left: 0;
 }
 
 /* Flower */
 .flower {
-  flex-shrink: 0;
   opacity: 0;
-  animation: fadeInUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.7s;
-  position: relative;
-  /* These control the position without fighting the animation */
-  top: 96px;
-  /* Increase this to move it DOWN */
-  left: -90px;
-  /* Decrease this (more negative) to move it LEFT */
+  animation: fadeInUpFlower 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.7s;
+  position: absolute;
+  bottom: var(--hero-flower-bottom-offset);
+  top: auto;
+  left: var(--hero-flower-horizontal-offset);
+  transform: none;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .flower img {
@@ -343,7 +351,8 @@ nav .inner {
   animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.6s;
   margin-top: 40px;
   position: relative;
-  left: -100px;
+  left: 0;
+  min-height: auto;
 }
 
 .hero-heading em {
@@ -370,7 +379,7 @@ nav .inner {
 
   /* 📐 Independent positioning */
   position: relative;
-  top: 60px;
+  top: var(--hero-sub-desktop-y-offset);
   /* Shifts it DOWN */
   left: -20px;
   /* Nudged slightly to the LEFT */
@@ -396,6 +405,18 @@ nav .inner {
 }
 
 @keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUpFlower {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -460,12 +481,11 @@ nav .inner {
     gap: 20px;
   }
   .flower {
-    top: 0;
     left: 0;
   }
   .hero-heading {
     left: 0;
-    margin-top: 0;
+    margin-top: 50px;
   }
   .hero-sub {
     max-width: 100%;
@@ -483,16 +503,16 @@ nav .inner {
   .b-featured {
     grid-column: 1 / -1;
     grid-row: auto;
-    min-height: 280px;
+    min-height: 240px;
   }
   .b-tall {
     grid-column: auto;
     grid-row: auto;
-    min-height: 220px;
+    min-height: 190px;
   }
   .b-wide {
     grid-column: 1 / -1;
-    min-height: 180px;
+    min-height: 160px;
   }
 
   /* Posts grid → 2 columns */
@@ -529,7 +549,7 @@ nav .inner {
   .b-tall,
   .b-wide {
     grid-column: auto;
-    min-height: 200px;
+    min-height: 170px;
   }
 
   /* Posts grid → 1 column */
@@ -605,7 +625,7 @@ nav .inner {
   background: var(--white);
   position: relative;
   z-index: 2;
-  padding: clamp(80px, 14vh, 160px) 0 clamp(64px, 10vh, 120px);
+  padding: clamp(48px, 9vh, 104px) 0 clamp(36px, 7vh, 84px);
 }
 
 .s-header {
@@ -613,7 +633,7 @@ nav .inner {
   align-items: flex-end;
   justify-content: space-between;
   gap: 40px;
-  margin-bottom: clamp(36px, 5vh, 56px);
+  margin-bottom: clamp(22px, 3.5vh, 40px);
 }
 
 .s-header-left {
@@ -633,8 +653,8 @@ nav .inner {
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 260px 260px 200px;
-  gap: 14px;
+  grid-template-rows: 205px 205px 180px;
+  gap: 12px;
 }
 
 .b-card {
@@ -686,6 +706,11 @@ nav .inner {
   padding: clamp(20px, 2.2vw, 32px);
 }
 
+.b-featured .b-in,
+.b-tall .b-in {
+  padding: clamp(16px, 1.6vw, 24px);
+}
+
 .b-tag {
   display: inline-flex;
   align-items: center;
@@ -716,6 +741,11 @@ nav .inner {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.b-featured .b-body,
+.b-tall .b-body {
+  gap: 6px;
 }
 
 .b-title {
@@ -750,6 +780,12 @@ nav .inner {
   margin-top: 20px;
   padding-top: 16px;
   border-top: 1px solid var(--border-soft);
+}
+
+.b-featured .b-foot,
+.b-tall .b-foot {
+  margin-top: 12px;
+  padding-top: 12px;
 }
 
 .b-time {
@@ -1018,4 +1054,323 @@ nav .inner {
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* ──────────────────────────────────────
+   RESPONSIVE OVERRIDES (kept at end so they win cascade)
+────────────────────────────────────── */
+@media (max-width: 1200px) {
+  :root {
+    --content-width: min(92%, 1120px);
+  }
+
+  .hero-sub {
+    left: 0;
+    top: 40px;
+    max-width: 380px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1200px) {
+  .hero-section {
+    min-height: 100vh;
+    height: 100vh;
+  }
+
+  .page {
+    min-height: 100vh;
+    height: 100%;
+  }
+
+  .hero-heading {
+    min-height: calc(var(--hero-heading-reserved-lines-prebreak) * var(--hero-heading-line-height) * 1em);
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --content-width: min(92%, 760px);
+  }
+
+  .hero-section {
+    min-height: auto;
+    height: auto;
+  }
+
+  .dots {
+    height: clamp(260px, 38vh, 420px);
+  }
+
+  .hero {
+    padding-bottom: clamp(56px, 9vh, 96px);
+  }
+
+  .hero .inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .hero-left {
+    align-items: flex-start;
+    gap: 14px;
+    padding-left: 0;
+  }
+
+  .flower {
+    width: 56px;
+    left: 0;
+  }
+
+  .hero-heading {
+    left: 0;
+    margin-top: 0;
+    max-width: 18ch;
+    font-size: clamp(34px, 7vw, 52px);
+  }
+
+  .hero-sub {
+    max-width: min(100%, 34ch);
+    text-align: left;
+    padding-bottom: 0;
+    top: 0;
+    left: 0;
+    font-size: clamp(17px, 2.3vw, 24px);
+  }
+
+  .bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+  }
+
+  .b-featured {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    min-height: 195px;
+  }
+
+  .b-tall {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 155px;
+  }
+
+  .b-wide {
+    grid-column: 1 / -1;
+    min-height: 160px;
+  }
+
+  .posts-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --content-width: 92%;
+  }
+
+  nav .inner {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+
+  .nav-logo {
+    display: none;
+  }
+
+  .nav-btn {
+    min-width: 116px;
+    height: 38px;
+    font-size: 13px;
+    padding: 0 14px;
+  }
+
+  .hero-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-left: 0;
+  }
+
+  .flower {
+    width: 44px;
+  }
+
+  .hero-heading {
+    font-size: clamp(28px, 9vw, 42px);
+    line-height: 1.1;
+    max-width: 100%;
+  }
+
+  .hero-sub {
+    font-size: clamp(15px, 4.2vw, 18px);
+    line-height: 1.45;
+    max-width: 100%;
+  }
+
+  .s-title {
+    font-size: clamp(24px, 8vw, 34px);
+  }
+
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .b-featured,
+  .b-tall {
+    grid-column: auto;
+    min-height: 135px;
+  }
+
+  .b-wide {
+    grid-column: auto;
+    min-height: 170px;
+  }
+
+  .posts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pill-row {
+    gap: 6px;
+  }
+
+  .pill {
+    font-size: 12px;
+    padding: 7px 14px;
+  }
+
+  .footer-inner {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav-brand {
+    font-size: 0.9rem;
+  }
+
+  .nav-btn {
+    min-width: 106px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  .load-more-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  html,
+  body {
+    cursor: auto;
+  }
+
+  a,
+  button,
+  .nav-brand,
+  .nav-logo,
+  .b-card-link,
+  .p-card-link,
+  .pill,
+  .load-more-btn,
+  .b-card,
+  .p-card {
+    cursor: pointer !important;
+  }
+
+  .cursor {
+    display: none !important;
+  }
+}
+
+/* ──────────────────────────────────────
+   HERO FLOW LOCK (dots first, text second)
+────────────────────────────────────── */
+.hero-section {
+  min-height: 100vh;
+  height: auto;
+  overflow: hidden;
+}
+
+.page {
+  min-height: 100vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.dots {
+  position: relative;
+  top: auto;
+  left: auto;
+  height: clamp(260px, 36vh, 440px);
+  margin-top: clamp(8px, 2vh, 18px);
+  margin-bottom: clamp(10px, 2.4vh, 26px);
+  overflow: visible;
+}
+
+.dots canvas {
+  top: calc(var(--dot-overflow-buffer) * -1);
+  left: calc(var(--dot-overflow-buffer) * -1);
+  width: calc(100% + (var(--dot-overflow-buffer) * 2));
+  height: calc(100% + (var(--dot-overflow-buffer) * 2));
+}
+
+.spacer {
+  display: none;
+}
+
+.hero {
+  min-height: 0;
+  padding-top: clamp(22px, 4vh, 48px);
+  padding-bottom: clamp(70px, 12vh, 145px);
+}
+
+@media (max-width: 900px) {
+  .hero-section,
+  .page {
+    min-height: auto;
+  }
+
+  .flower {
+    left: auto;
+    right: var(--hero-flower-horizontal-offset);
+  }
+
+  .dots {
+    height: clamp(220px, 32vh, 320px);
+    margin-top: 8px;
+  }
+
+  .hero {
+    padding-top: clamp(18px, 3vh, 28px);
+  }
+
+  .hero-heading {
+    margin-top: 20px;
+  }
+
+  .hero-sub {
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dots {
+    height: clamp(190px, 28vh, 260px);
+  }
+
+  .hero-heading {
+    margin-top: 24px;
+  }
+
+  .hero-sub {
+    margin-top: 8px;
+  }
 }
