@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:mokshadesign.framer.website)",
+      "WebSearch",
+      "Skill(anthropic-skills:ui-designer)",
+      "Skill(anthropic-skills:ui-designer:*)"
+    ]
+  }
+}

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moksha Writes .</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- HERO SECTION -->
+  <div class="hero-section">
+  <div class="bg">
+    <img src="assets/herobg.svg" alt="" role="presentation" />
+  </div>
+
+  <div class="page">
+
+    <!-- NAVBAR -->
+    <nav>
+      <div class="inner">
+        <span class="nav-brand">Moksha Writes .</span>
+
+        <div class="nav-logo">
+          <img src="assets/Navlogo.svg" alt="Moksha Writes logo" />
+        </div>
+
+        <a href="https://mokshadesign.framer.website/" target="_blank" rel="noopener noreferrer" class="nav-btn">My Portfolio</a>
+      </div>
+    </nav>
+
+    <!-- DOTS -->
+    <div class="dots">
+      <canvas id="dots-canvas"></canvas>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="inner">
+        <div class="hero-left">
+
+          <!-- Flower -->
+          <div class="flower">
+            <img src="assets/flowerhero.svg" alt="" role="presentation" />
+          </div>
+
+          <h1 class="hero-heading">
+            I design for a living.<br />
+            This is where <span id="typewriter"><em>I think out loud.</em></span><span class="cursor-blink">|</span>
+          </h1>
+
+        </div>
+
+        <p class="hero-sub">
+          A designer's notebook on craft,<br />
+          process, and everything in<br />
+          between.
+        </p>
+      </div>
+    </div>
+
+  </div><!-- /page -->
+  </div><!-- /hero-section -->
+
+  <!-- ──────────────── BENTO SECTION ──────────────── -->
+    <section class="bento-section">
+      <div class="s-wrap">
+
+        <header class="s-header fade-up">
+          <div class="s-header-left">
+            <span class="eyebrow">Featured</span>
+            <h2 class="s-title">Writing worth <em>sitting&nbsp;with.</em></h2>
+          </div>
+        </header>
+
+        <div class="bento-grid">
+
+          <!-- 1 · Featured (2 cols × 2 rows) -->
+          <article class="b-card b-featured fade-up" style="--d:0s">
+            <a href="post.html" class="b-card-link">
+              <div class="b-in">
+                <span class="b-tag">Process</span>
+                <div class="b-body">
+                  <h3 class="b-title">Why I stopped designing for perfection and started designing for meaning</h3>
+                  <p class="b-excerpt">After years of chasing pixel-perfect outcomes, I discovered that the best work emerges from a very different kind of intention — one rooted in curiosity, not control.</p>
+                </div>
+                <div class="b-foot">
+                  <span class="b-time">8 min read</span>
+                  <span class="b-arrow">→</span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <!-- 2 · Tall (1 col × 2 rows) -->
+          <article class="b-card b-tall fade-up" style="--d:0.08s">
+            <a href="post.html" class="b-card-link">
+              <div class="b-in">
+                <span class="b-tag">Career</span>
+                <div class="b-body">
+                  <h3 class="b-title">The 10-second rule that changed how I present work</h3>
+                </div>
+                <div class="b-foot">
+                  <span class="b-time">5 min read</span>
+                  <span class="b-arrow">→</span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <!-- 3 · Small (col 1, row 3) -->
+          <article class="b-card fade-up" style="--d:0.16s">
+            <a href="post.html" class="b-card-link">
+              <div class="b-in">
+                <span class="b-tag">UX</span>
+                <div class="b-body">
+                  <h3 class="b-title">Dark patterns are a quiet design failure</h3>
+                </div>
+                <div class="b-foot">
+                  <span class="b-time">4 min read</span>
+                  <span class="b-arrow">→</span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <!-- 4 · Wide (cols 2–3, row 3) -->
+          <article class="b-card b-wide fade-up" style="--d:0.24s">
+            <a href="post.html" class="b-card-link">
+              <div class="b-in">
+                <span class="b-tag">Research</span>
+                <div class="b-body">
+                  <h3 class="b-title">Reading between the lines: what your data isn't saying</h3>
+                  <p class="b-excerpt">The real insights live in the silence between the answers.</p>
+                </div>
+                <div class="b-foot">
+                  <span class="b-time">6 min read</span>
+                  <span class="b-arrow">→</span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────── ALL POSTS SECTION ──────────────── -->
+    <section class="posts-section">
+      <div class="s-wrap">
+
+        <header class="posts-hd fade-up">
+          <h2 class="s-title">All Writing</h2>
+          <div class="pill-row">
+            <button class="pill pill--on" data-filter="all">All</button>
+            <button class="pill" data-filter="design">Design</button>
+            <button class="pill" data-filter="process">Process</button>
+            <button class="pill" data-filter="ux">UX</button>
+            <button class="pill" data-filter="career">Career</button>
+            <button class="pill" data-filter="thoughts">Thoughts</button>
+            <button class="pill" data-filter="research">Research</button>
+          </div>
+        </header>
+
+        <div class="posts-wrap">
+          <div class="posts-grid" id="posts-grid">
+
+            <article class="p-card" data-category="design">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Design</span>
+                  <h3 class="p-title">On designing for edge cases — and why they matter more than you think</h3>
+                  <p class="p-excerpt">Edge cases aren't edge cases. They're the moments that reveal whether a system actually works.</p>
+                  <span class="p-time">5 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card" data-category="design">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Design</span>
+                  <h3 class="p-title">Typography is the invisible voice of your product</h3>
+                  <p class="p-excerpt">Every typeface makes a promise. Here's how to keep yours.</p>
+                  <span class="p-time">7 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card" data-category="career">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Career</span>
+                  <h3 class="p-title">Why designers need to learn to speak business</h3>
+                  <p class="p-excerpt">The gap between great design and shipped design is usually a translation problem.</p>
+                  <span class="p-time">6 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card" data-category="design">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Design</span>
+                  <h3 class="p-title">Motion design: the invisible medium we keep ignoring</h3>
+                  <p class="p-excerpt">Animation isn't decoration. It's communication.</p>
+                  <span class="p-time">4 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card" data-category="process">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Process</span>
+                  <h3 class="p-title">UX writing is still design — and it always has been</h3>
+                  <p class="p-excerpt">Words are wireframes. Here's why every designer should write.</p>
+                  <span class="p-time">5 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card" data-category="process">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Process</span>
+                  <h3 class="p-title">How to give design feedback that actually helps people grow</h3>
+                  <p class="p-excerpt">Critique is a skill. Most of us were never taught it.</p>
+                  <span class="p-time">4 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card" data-category="design">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Design</span>
+                  <h3 class="p-title">The problem with design systems that no one wants to admit</h3>
+                  <p class="p-excerpt">Systems are only as good as the culture that maintains them.</p>
+                  <span class="p-time">8 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card" data-category="ux">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">UX</span>
+                  <h3 class="p-title">Designing accessible products without compromising beauty</h3>
+                  <p class="p-excerpt">Accessibility constraints make design better. Always.</p>
+                  <span class="p-time">6 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card" data-category="research">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Research</span>
+                  <h3 class="p-title">Finding the signal in user research noise</h3>
+                  <p class="p-excerpt">Not every insight is worth acting on. Here's how I decide.</p>
+                  <span class="p-time">5 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <!-- Hidden posts -->
+            <article class="p-card p-hidden" data-category="process">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Process</span>
+                  <h3 class="p-title">Why I love working with constraints</h3>
+                  <p class="p-excerpt">Constraint isn't the enemy of creativity. It's the engine.</p>
+                  <span class="p-time">4 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card p-hidden" data-category="career">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Career</span>
+                  <h3 class="p-title">The curse of the expert: knowing too much to design simply</h3>
+                  <p class="p-excerpt">The more you know, the harder it is to design for someone who doesn't.</p>
+                  <span class="p-time">5 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card p-hidden" data-category="ux">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">UX</span>
+                  <h3 class="p-title">Reading between the clicks: what interaction data actually tells you</h3>
+                  <p class="p-excerpt">Numbers don't lie, but they don't tell the whole truth either.</p>
+                  <span class="p-time">6 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card p-hidden" data-category="thoughts">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Thoughts</span>
+                  <h3 class="p-title">On creative burnout and the strange grace of coming back</h3>
+                  <p class="p-excerpt">Burnout taught me more about design than any brief ever did.</p>
+                  <span class="p-time">7 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card p-hidden" data-category="career">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">Career</span>
+                  <h3 class="p-title">The design review that quietly changed everything about how I work</h3>
+                  <p class="p-excerpt">Sometimes feedback hits different when you're ready to hear it.</p>
+                  <span class="p-time">6 min read</span>
+                </div>
+              </a>
+            </article>
+
+            <article class="p-card p-hidden" data-category="ux">
+              <a href="post.html" class="p-card-link">
+                <div class="p-in">
+                  <span class="p-tag">UX</span>
+                  <h3 class="p-title">Designing for the distracted mind in a notification-filled world</h3>
+                  <p class="p-excerpt">Your users aren't fully present. Your design needs to accept that.</p>
+                  <span class="p-time">5 min read</span>
+                </div>
+              </a>
+            </article>
+
+          </div>
+          <div class="posts-fade" id="posts-fade"></div>
+        </div>
+
+        <div class="load-more-row">
+          <button class="load-more-btn" id="load-more-btn">Load more</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ──────────────── FOOTER ──────────────── -->
+    <footer class="site-footer">
+      <div class="s-wrap">
+        <div class="footer-inner">
+          <span class="footer-brand">Moksha Writes .</span>
+          <span class="footer-year">© 2026</span>
+        </div>
+      </div>
+      <img src="assets/footer.svg" alt="" class="footer-svg" aria-hidden="true">
+    </footer>
+
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor"></div>
+
+  <script src="main.js"></script>
+</body>
+
+</html>
