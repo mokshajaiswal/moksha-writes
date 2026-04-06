@@ -75,8 +75,9 @@
   --content-width: clamp(60%, 85%, 94%);
   --dot-grid-spacing: 35px;
   --dot-overflow-buffer: 128px;
-  --hero-flower-bottom-offset: 35px;
+  --hero-flower-bottom-offset: -4px;
   --hero-flower-horizontal-offset: 24px;
+  --hero-flower-scale: 1.6;
   --hero-sub-desktop-y-offset: 150px;
   --hero-heading-line-height: 1.07;
   --hero-heading-reserved-lines-prebreak: 4;
@@ -196,6 +197,30 @@ nav .inner {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.nav-logo-canvas,
+.nav-logo-fallback {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.nav-logo-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.nav-logo-fallback {
+  position: relative;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.nav-logo[data-lottie-ready="true"] .nav-logo-fallback {
+  opacity: 0;
 }
 
 .nav-btn {
@@ -325,18 +350,39 @@ nav .inner {
   opacity: 0;
   animation: fadeInUpFlower 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.7s;
   position: absolute;
+  width: calc(80px * var(--hero-flower-scale));
   bottom: var(--hero-flower-bottom-offset);
   top: auto;
   left: var(--hero-flower-horizontal-offset);
   transform: none;
   z-index: 2;
+  pointer-events: auto;
+}
+
+.flower img,
+.flower-canvas,
+.flower-fallback {
+  width: 100%;
+  display: block;
+}
+
+.flower-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.flower-fallback {
+  position: relative;
+  z-index: 0;
   pointer-events: none;
 }
 
-.flower img {
-  width: 100%;
-  height: auto;
-  display: block;
+.flower[data-lottie-ready="true"] .flower-fallback {
+  opacity: 0;
 }
 
 /* Heading */
@@ -1118,7 +1164,7 @@ nav .inner {
   }
 
   .flower {
-    width: 56px;
+    width: calc(56px * var(--hero-flower-scale));
     left: 0;
   }
 
@@ -1194,7 +1240,7 @@ nav .inner {
   }
 
   .flower {
-    width: 44px;
+    width: calc(44px * var(--hero-flower-scale));
   }
 
   .hero-heading {
@@ -1338,6 +1384,10 @@ nav .inner {
     min-height: auto;
   }
 
+  .hero .inner {
+    gap: 12px;
+  }
+
   .flower {
     left: auto;
     right: var(--hero-flower-horizontal-offset);
@@ -1353,11 +1403,11 @@ nav .inner {
   }
 
   .hero-heading {
-    margin-top: 20px;
+    margin-top: 35px;
   }
 
   .hero-sub {
-    margin-top: 6px;
+    margin-top: 0;
   }
 }
 
@@ -1367,10 +1417,10 @@ nav .inner {
   }
 
   .hero-heading {
-    margin-top: 24px;
+    margin-top: 39px;
   }
 
   .hero-sub {
-    margin-top: 8px;
+    margin-top: 2px;
   }
 }

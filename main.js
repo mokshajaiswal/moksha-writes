@@ -1,6 +1,68 @@
 // Moksha Writes — main.js
 
 document.addEventListener('DOMContentLoaded', () => {
+  const navLogo = document.querySelector('.nav-logo');
+  const flower = document.querySelector('.flower');
+
+  // Paste a raw GitHub .lottie URL into the data attribute in index.html.
+  function convertRawGitHubLottieUrl(url) {
+    if (!url) return '';
+
+    const trimmedUrl = url.trim();
+    const rawGithubMatch = trimmedUrl.match(
+      /^https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+\.lottie)$/i,
+    );
+
+    if (rawGithubMatch) {
+      const [, owner, repo, ref, assetPath] = rawGithubMatch;
+      return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${ref}/${assetPath}`;
+    }
+
+    return trimmedUrl;
+  }
+
+  async function initLottieElement(container, canvasSelector) {
+    if (!container) return;
+
+    const rawUrl = container.dataset.lottieRawUrl;
+    const stateMachineId = container.dataset.lottieStateMachine;
+    if (!rawUrl) return;
+
+    const canvas = container.querySelector(canvasSelector);
+    const src = convertRawGitHubLottieUrl(rawUrl);
+    if (!canvas || !src) return;
+
+    try {
+      const { DotLottie } = await import('https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-web/+esm');
+
+      const dotLottieConfig = {
+        autoplay: true,
+        loop: true,
+        canvas,
+        src,
+        renderConfig: {
+          autoResize: true,
+        },
+        layout: {
+          fit: 'contain',
+          align: [0.5, 0.5],
+        },
+      };
+
+      if (stateMachineId) {
+        dotLottieConfig.stateMachineId = stateMachineId;
+      }
+
+      new DotLottie(dotLottieConfig);
+
+      container.dataset.lottieReady = 'true';
+    } catch (error) {
+      console.error('Failed to initialize .lottie animation.', error);
+    }
+  }
+
+  initLottieElement(navLogo, '.nav-logo-canvas');
+  initLottieElement(flower, '.flower-canvas');
 
   // CUSTOM CURSOR
   const cursor = document.querySelector('.cursor');
