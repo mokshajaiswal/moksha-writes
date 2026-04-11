@@ -298,12 +298,12 @@ body.post-page {
 }
 
 .post-list li::before {
-  content: '—';
+  content: '·';
   position: absolute;
   left: 0;
   color: var(--pink-deep);
-  font-size: 12px;
-  top: 4px;
+  font-size: 20px;
+  top: 0px;
 }
 
 /* Inline images */
@@ -359,6 +359,91 @@ body.post-page {
   height: 100%;
   text-decoration: none;
   color: inherit;
+}
+
+/* ── COMPARISON TABLE ── */
+.post-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 32px 0 8px;
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+}
+
+.post-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Hellix', sans-serif;
+  font-size: clamp(13px, 0.9vw, 15px);
+  min-width: 560px;
+}
+
+.post-table thead tr {
+  background: rgba(27, 23, 20, 0.04);
+}
+
+.post-table th {
+  font-family: 'Hellix', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-soft);
+  white-space: nowrap;
+}
+
+.post-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--ink-mid);
+  vertical-align: middle;
+}
+
+.post-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.post-table tbody tr:hover {
+  background: rgba(27, 23, 20, 0.02);
+}
+
+.post-table__label {
+  font-family: 'Hellix', sans-serif;
+  font-weight: 500;
+  color: var(--ink) !important;
+  white-space: nowrap;
+}
+
+/* Rating badges */
+.post-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Hellix', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.post-badge--high {
+  background: rgba(52, 168, 83, 0.1);
+  color: #1e7e3c;
+}
+
+.post-badge--mid {
+  background: rgba(251, 188, 4, 0.12);
+  color: #9a6f00;
+}
+
+.post-badge--low {
+  background: rgba(213, 55, 55, 0.1);
+  color: #b72b2b;
 }
 
 /* ── RESPONSIVE ── */

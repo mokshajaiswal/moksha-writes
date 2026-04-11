@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing for the wait: a complete guide to loading patterns: Moksha Writes .</title>
+  <meta name="description"
+    content="Loading patterns are more than spinning wheels: they're a promise to the user. Here's a full breakdown of loaders, behaviors, and when to use each one." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="post.css" />
+</head>
+
+<body class="post-page">
+
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- NAV -->
+  <nav class="post-nav">
+    <div class="post-nav-inner">
+      <a href="index.html" class="back-link">← All Writing</a>
+      <span class="post-nav-brand">Moksha Writes .</span>
+      <a href="https://mokshadesign.framer.website/" target="_blank" rel="noopener noreferrer" class="post-nav-btn">My
+        Portfolio</a>
+    </div>
+  </nav>
+
+  <!-- ARTICLE HEADER -->
+  <header class="post-header">
+    <div class="post-header-inner">
+      <span class="post-eyebrow">UX</span>
+      <h1 class="post-title">Designing for the wait: a complete guide to loading patterns</h1>
+      <p class="post-standfirst">Loading patterns are more than spinning wheels,they're a promise to the user. Here's a
+        full breakdown of every loader type, when to use them, and the behaviours that make the difference between
+        frustrating and fluid.</p>
+      <div class="post-meta-row">
+        <span class="post-read-time">10 min read</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- FEATURED IMAGE: replace with your image -->
+  <div class="post-featured-img-wrap">
+    <div class="post-featured-img" id="image1">
+      <img src="assets/loading-hero.png" alt="Loading patterns overview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;">
+    </div>
+    <p class="post-caption" style="text-align:center; margin-top: 12px;">image1: Loading patterns overview</p>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="post-body">
+
+    <!-- TOC SIDEBAR -->
+    <aside class="post-toc" id="postToc">
+      <p class="toc-label">In this piece</p>
+      <nav aria-label="Article sections">
+        <ol class="toc-list">
+          <li><a href="#intro" class="toc-link toc-active">What is loading?</a></li>
+          <li><a href="#how-they-help" class="toc-link">How loaders help</a></li>
+          <li><a href="#types" class="toc-link">Types of loaders</a></li>
+          <li><a href="#behaviors" class="toc-link">Loading behaviors</a></li>
+          <li><a href="#components" class="toc-link">Spinner, Progress & Skeleton</a></li>
+          <li><a href="#scenarios" class="toc-link">Loading across scenarios</a></li>
+          <li><a href="#comparison" class="toc-link">Comparison table</a></li>
+          <li><a href="#best-practices" class="toc-link">Best practices</a></li>
+          <li><a href="#anti-patterns" class="toc-link">Anti-patterns</a></li>
+        </ol>
+      </nav>
+    </aside>
+
+    <!-- ARTICLE CONTENT -->
+    <article class="post-content">
+
+      <section id="intro">
+        <p class="post-lede">Loading is a visual indication that is used to set an expectation of what the system is
+          doing.</p>
+        <p>It provides feedback to the user and could be used to inform them of the time or status of completion. The
+          loading interaction is designed considering various factors like wait time, amount of data being processed,
+          and task complexity.</p>
+        <p>The loading pattern describes different types of loaders along with recommendations on which type to use
+          based on various scenarios.</p>
+      </section>
+
+      <section id="how-they-help">
+        <h2>How do loaders help?</h2>
+        <p>A good loading pattern does a lot of quiet work. Here's what it actually achieves:</p>
+        <ul class="post-list">
+          <li>Informs the user of system feedback: they know something is happening</li>
+          <li>Establishes a sense of momentum and continuity: the product feels alive</li>
+          <li>Gives the perception that content is loading faster than it actually is</li>
+          <li>Handles the latency present when the interface loads data from a server</li>
+          <li>Lets the user know the interface is not frozen: it's working</li>
+          <li>Creates a sense of reassurance during uncertainty</li>
+        </ul>
+      </section>
+
+      <section id="types">
+        <h2>Types of loaders</h2>
+        <p>Before choosing a loader, the most important question is: <em>do you know how long this will take?</em> The
+          answer determines whether you use a determinate or indeterminate loader.</p>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">1. Determinate</h2>
+        <p>Determinate loaders display how long a task may take to complete. They show the status of time and are most
+          appropriate when you can actually measure progress.</p>
+        <ul class="post-list">
+          <li>Provides a clear sense of duration: start and end point</li>
+          <li>When the process takes more than 10 seconds, adding a time estimate with the component is advised</li>
+          <li>Should be used when load time is known or detectable</li>
+          <li>Works best when communicating progress through numbers and percentages</li>
+        </ul>
+
+        <!-- Image placeholder -->
+        <div class="post-img-block" id="image2">
+          <img src="assets/determinate-loader.png" alt="Determinate loader example" class="post-img post-img--wide" style="object-fit: cover;">
+          <p class="post-caption">image2: Determinate loader example showing percentage completion</p>
+        </div>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">2. Indeterminate</h2>
+        <p>Indeterminate loaders display unquantified wait time, used when the system doesn't know how long the
+          operation will take.</p>
+        <ul class="post-list">
+          <li>Less informative by nature, which is a trade-off worth making for shorter waits</li>
+          <li>Should be used when the wait time is less or unknown</li>
+          <li>Best when the process is simply unquantifiable</li>
+        </ul>
+
+        <blockquote class="post-pullquote">
+          Both determinate and indeterminate loaders can take the form of linear (bar) or circular (spinner). The shape
+          and the type are separate decisions.
+        </blockquote>
+      </section>
+
+      <section id="behaviors">
+        <h2>Loading behaviors</h2>
+        <p>Beyond the visual form of a loader, there's a broader architectural question: <em>how</em> does your
+          interface load its data? There are two dominant strategies, and choosing between them has real impact on both
+          performance and user perception.</p>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Lazy loading</h2>
+        <p>Lazy loading is an optimising technique where content on the page is not loaded until it is needed. Normally,
+          a whole page loads at once (known as "eager loading"). With lazy loading, the system fetches content only when
+          the user requires it. It can be implemented with pagination, batch loading with "load more", infinite scroll,
+          and when data is sourced from multiple origins.</p>
+
+        <p><strong>Pros</strong></p>
+        <ul class="post-list">
+          <li>Improves performance by reducing initial page load time: delays non-critical content</li>
+          <li>Reduces time consumption and memory usage, which optimises content delivery</li>
+          <li>Reduces cost by cutting memory usage and total bytes delivered</li>
+        </ul>
+
+        <p><strong>Cons</strong></p>
+        <ul class="post-list">
+          <li>If overused, it can negatively impact SEO and overall site performance</li>
+          <li>Cannot be used for critical above-the-fold content</li>
+          <li>Too much dynamic loading can cause interruptions in the user experience</li>
+        </ul>
+
+        <!-- Image placeholder -->
+        <div class="post-img-block" id="image3">
+          <img src="assets/lazy-loading.png" alt="Lazy loading vs eager loading" class="post-img post-img--wide" style="object-fit: cover;">
+          <p class="post-caption">image3: Lazy loading vs eager loading: how content is fetched over time</p>
+        </div>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Progressive loading</h2>
+        <p>Progressive loading loads content in steps: the page appears in multiple stages. Elements appear once they
+          have loaded. Typically, the skeleton outline renders first, followed by text, then images.</p>
+
+        <p><strong>Pros</strong></p>
+        <ul class="post-list">
+          <li>Indicates a clear sense of progress: the user can see the page coming alive</li>
+          <li>Encourages active waiting by giving users new information at each step</li>
+          <li>Works well on pages that call data from multiple sources</li>
+          <li>Particularly effective when filtering and sorting in tables: loads data stepwise</li>
+        </ul>
+
+        <p><strong>Cons</strong></p>
+        <ul class="post-list">
+          <li>Should not be used on low-data pages that can load in one go</li>
+          <li>Takes more development effort than a single-pass page load</li>
+          <li>Too much dynamic loading can cause interruptions for the user</li>
+        </ul>
+      </section>
+
+      <section id="components">
+        <h2>GDS components: Spinner, Progress & Skeleton</h2>
+        <p>Once you've decided on your loading approach, you need to pick the right visual component. There are three
+          main ones, and they're not interchangeable.</p>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Spinner</h2>
+        <p>Use a Spinner when the wait time is short: typically when the process takes more than 1 second but the
+          duration is unknown. The Spinner is the most common loading pattern used across platforms. It's usually used
+          for loading the status of a page, section, or inline action when the system cannot determine the exact wait
+          time.</p>
+
+        <p><strong>When to use</strong></p>
+        <ul class="post-list">
+          <li>When the page structure is undetermined</li>
+          <li>In the case of empty white screens: use a spinner to communicate the system is working</li>
+          <li>When an activity is happening in the background (uploading or saving)</li>
+          <li>When a component is making an asynchronous update without refreshing the page</li>
+          <li>To reload a failure error or empty state</li>
+          <li>When you manually refresh the page</li>
+        </ul>
+
+        <p><strong>When not to use a spinner</strong></p>
+        <ul class="post-list">
+          <li>When more than one component is loading simultaneously: use skeleton instead</li>
+          <li>Avoid using multiple spinners at the same time on the same view</li>
+          <li>Avoid for processes that take longer than expected: switch to a determinate loader</li>
+        </ul>
+
+        <p><strong>Use cases by size</strong></p>
+        <ul class="post-list">
+          <li><strong>Small Spinner</strong>: Use with a button, near inline text, or for small feedback moments</li>
+          <li><strong>Medium Spinner</strong>: Modals, side sheets, within a component, forms, areas with limited space
+          </li>
+          <li><strong>Large Spinner</strong>: Whole page, larger components, areas with no space constraints</li>
+        </ul>
+
+        <blockquote class="post-pullquote">
+          An overlay spinner can be used to block user interaction with the whole screen or a section while a process
+          runs in the background: use sparingly.
+        </blockquote>
+
+        <!-- Image placeholder -->
+        <div class="post-img-block" id="image4">
+          <img src="assets/spinner-sizes.png" alt="Spinner sizes comparison" class="post-img post-img--wide" style="object-fit: cover;">
+          <p class="post-caption">image4: Small, medium, and large spinner use case comparison</p>
+        </div>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Progress</h2>
+        <p>Progress loaders are informative loaders that show how much time the system will take to complete a task.
+          They tell the user how much is done and how much is left: reducing the uncertainty of long-running processes.
+        </p>
+
+        <p><strong>When to use</strong></p>
+        <ul class="post-list">
+          <li>When a task is taking more than 10 seconds: and duration can be measured</li>
+          <li>While uploading or downloading data</li>
+          <li>Where the process is measurable and you can communicate a percentage</li>
+          <li>To give informative feedback during a long, background process</li>
+        </ul>
+
+        <p><strong>When not to use</strong></p>
+        <ul class="post-list">
+          <li>Avoid for an unknown amount of time: don't fake a percentage</li>
+          <li>Should not be used for fast processes: it creates unnecessary visual noise</li>
+        </ul>
+
+        <p><strong>Use cases</strong></p>
+        <ul class="post-list">
+          <li>Exporting and importing files</li>
+          <li>Processing a document</li>
+          <li>Loading a long-running background task</li>
+          <li>To show where the user is in their journey (multi-step flows)</li>
+          <li>Opening a new application or large file</li>
+        </ul>
+
+        <blockquote class="post-pullquote">
+          In some use cases, a progress loader can include a cancel button: giving the user control to abandon a
+          process they no longer want to wait for.
+        </blockquote>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Skeleton</h2>
+        <p>Skeleton loaders show a preview of the user interface before the actual content appears. They give users an
+          initial sense of the page's structure and set expectations about what's coming: creating the illusion that
+          content is loading faster than it actually is.</p>
+
+        <p><strong>When to use</strong></p>
+        <ul class="post-list">
+          <li>When you want a more visually appealing and polished loading experience</li>
+          <li>To decrease the perceived wait time on content-heavy pages</li>
+          <li>When giving a sense of structure to the page before content shows</li>
+          <li>When a loading spinner would not be prominent enough on screen</li>
+        </ul>
+
+        <p><strong>When not to use</strong></p>
+        <ul class="post-list">
+          <li>Should not be used for small feedback or inline actions</li>
+          <li>When wait time is short: skeleton adds unnecessary complexity</li>
+          <li>Avoid with dynamic layouts where the page structure is unknown in advance</li>
+          <li>Do not combine skeleton loader with a spinner on the same element</li>
+        </ul>
+
+        <p><strong>Use cases</strong></p>
+        <ul class="post-list">
+          <li>Home pages and dashboards of applications</li>
+          <li>When loading structured data like tables and charts</li>
+          <li>When there is high traffic on an interface</li>
+          <li>Cards, whole pages, lists, content blocks, charts, and tables</li>
+          <li>Navigating between applications or sections</li>
+        </ul>
+
+        <!-- Image placeholder -->
+        <div class="post-img-block" id="image5">
+          <img src="assets/skeleton-loader.png" alt="Skeleton loader comparison" class="post-img post-img--wide" style="object-fit: cover;">
+          <p class="post-caption">image5: Skeleton loader: matching shape and layout to real content</p>
+        </div>
+
+        <blockquote class="post-pullquote">
+          The skeleton loader should match as closely as possible with the actual content: use different shapes to hint
+          at the real layout. The wait time ideally should be less than 1 second, which is considered an immediate
+          response.
+        </blockquote>
+
+        <p>Loading components should only be used when the wait time is unavoidable and the delay is not caused by
+          another underlying issue in the interface.</p>
+      </section>
+
+      <section id="scenarios">
+        <h2>Loading across scenarios</h2>
+        <p>Different UI contexts call for different loading representations. Here's how the pattern plays out across the
+          most common surfaces.</p>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Tables</h2>
+        <p>Tables consist of data in the form of rows and columns. When data is loaded from an API call: whether on
+          page refresh, table refresh, or initial load: skeleton loaders are best suited. They mirror the structure of
+          the content, indicating exactly what is about to appear in each row and column.</p>
+
+        <!-- Image placeholder -->
+        <div class="post-img-block" id="image6">
+          <div class="post-img post-img--wide" style="background: linear-gradient(135deg, #F5EDCC 0%, #DDE8F5 100%);">
+          </div>
+          <p class="post-caption">image6: Skeleton loader applied to a data table</p>
+        </div>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Cards</h2>
+        <p>Cards can contain several elements: content, buttons, inline actions, media. Loading can happen at multiple
+          levels: for the entire card, the content within a card, or the whole section in which cards live. Each level
+          calls for a slightly different approach, but skeleton loaders remain the most intuitive choice for card
+          layouts.</p>
+
+        <!-- Image placeholder -->
+        <div class="post-img-block" id="image7">
+          <div class="post-img post-img--portrait"
+            style="background: linear-gradient(135deg, #DDF0E4 0%, #F5EEE6 100%);"></div>
+          <p class="post-caption">image7: Card loading states: full card, content area, and section variations</p>
+        </div>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Side Sheets</h2>
+        <p>Side sheets are panels that slide in from the edge of the screen. For side sheets with significant data to
+          load, skeleton loaders are recommended. For shorter waits: for example when the sheet opens but data hasn't
+          arrived yet: a spinner centred within the sheet is the right call.</p>
+
+        <!-- Image placeholder -->
+        <div class="post-img-block" id="image8">
+          <div class="post-img post-img--wide" style="background: linear-gradient(135deg, #EDE8F5 0%, #F5EDCC 100%);">
+          </div>
+          <p class="post-caption">image8: Side sheet loading: skeleton for heavy data, spinner for short waits</p>
+        </div>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Buttons</h2>
+        <p>Buttons are a primary point of interaction, and they need to communicate when they've been heard. When a
+          button triggers an asynchronous action, use an indeterminate spinner placed inside or immediately adjacent to
+          the button. This confirms the system has received the tap and is working on it.</p>
+
+        <!-- Image placeholder -->
+        <div class="post-img-block" id="image9">
+          <div class="post-img post-img--wide" style="background: linear-gradient(135deg, #F5DDE8 0%, #DDE8F5 100%);">
+          </div>
+          <p class="post-caption">image9: Spinner inside a button indicating an in-progress action</p>
+        </div>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Opening applications</h2>
+        <p>When a user opens a new application or navigates between major surfaces, the wait can feel jarring without
+          the right treatment. Combine an indeterminate progress bar with the application's logo and a shimmer effect.
+          This gives the user context about what is loading, and makes the wait feel intentional rather than broken.</p>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Text edits</h2>
+        <p>Inline text verification (think username availability checks or form field validation that calls an API)
+          should use a small spinner. It appears near the field to signal that the system is checking, without
+          disrupting the rest of the form or drawing too much attention.</p>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Tabs</h2>
+        <p>When switching between tabs triggers a data fetch, a loading state is needed specifically for that tab's
+          content area. A skeleton or spinner scoped to the tab panel (not the whole page) keeps the loading
+          experience contextual and prevents unnecessary visual disruption to the rest of the interface.</p>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Uploading & downloading</h2>
+        <p>File operations are among the clearest candidates for a determinate progress loader. The user has explicitly
+          triggered an action that will take time, and they expect to see how far along it is. A progress bar with a
+          percentage or file size indicator manages the uncertainty of large transfers and gives users confidence the
+          operation is proceeding correctly.</p>
+
+        <!-- Image placeholder -->
+        <div class="post-img-block" id="image10">
+          <div class="post-img post-img--wide" style="background: linear-gradient(135deg, #DDF0E4 0%, #EDE8F5 100%);">
+          </div>
+          <p class="post-caption">image10: Progress bar for file upload/download with percentage indicator</p>
+        </div>
+
+      </section>
+
+      <!-- ─── COMPARISON TABLE ─── -->
+      <section id="comparison">
+        <h2>Comparison: which loader does what?</h2>
+        <p>This table maps each loader type against five key qualities that matter when choosing the right pattern for
+          your context.</p>
+
+        <div class="post-table-wrap">
+          <table class="post-table">
+            <thead>
+              <tr>
+                <th>Loader / Pattern</th>
+                <th>Relevant Feedback</th>
+                <th>Reduces Uncertainty</th>
+                <th>Reduces Perception Time</th>
+                <th>Space Efficient</th>
+                <th>Low Wait Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="post-table__label">Indeterminate Spinner</td>
+                <td><span class="post-badge post-badge--low">Low</span></td>
+                <td><span class="post-badge post-badge--mid">Medium</span></td>
+                <td><span class="post-badge post-badge--mid">Medium</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+              </tr>
+              <tr>
+                <td class="post-table__label">Determinate Spinner</td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--mid">Medium</span></td>
+              </tr>
+              <tr>
+                <td class="post-table__label">Indeterminate Progress</td>
+                <td><span class="post-badge post-badge--mid">Medium</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+              </tr>
+              <tr>
+                <td class="post-table__label">Determinate Progress</td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--low">Low</span></td>
+              </tr>
+              <tr>
+                <td class="post-table__label">Skeleton Loader</td>
+                <td><span class="post-badge post-badge--high">High</span></td>
+                <td><span class="post-badge post-badge--mid">Medium</span></td>
+                <td><span class="post-badge post-badge--mid">Medium</span></td>
+                <td><span class="post-badge post-badge--mid">Medium</span></td>
+                <td><span class="post-badge post-badge--mid">Medium</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ─── BEST PRACTICES ─── -->
+      <section id="best-practices">
+        <h2>Best practices</h2>
+        <p>Good loading design is partly about the component you choose and partly about the details that surround it.
+          Here are the principles worth internalising:</p>
+        <ul class="post-list">
+          <li>Use subtle animations to make the wait more enjoyable: motion signals life</li>
+          <li>Prioritise loading critical content first, based on what the user actually needs to see</li>
+          <li>Prefetch data where possible to reduce the need for a loading state at all</li>
+          <li>Start loading animations slow and end fast: this creates a perception of speed</li>
+          <li>Include supporting text alongside loaders (e.g. "Uploading your file…") for clarity and reassurance</li>
+          <li>Always provide clear completion feedback so users know the action has finished</li>
+          <li>Avoid showing a loading state for near-instant responses: it creates more anxiety than it resolves</li>
+          <li>For extremely long waits, consider offering an engaging distraction: progress messages, tips, or even
+            playful micro-interactions</li>
+        </ul>
+
+        <blockquote class="post-pullquote">
+          The best loading state is one the user never notices. Because it felt so natural, they assumed the content
+          was always there.
+        </blockquote>
+      </section>
+
+      <!-- ─── ANTI-PATTERNS ─── -->
+      <section id="anti-patterns">
+        <h2>Anti-patterns</h2>
+        <p>Knowing what <em>not</em> to do is just as important as knowing what to use. These are the two most common
+          loading mistakes in production interfaces.</p>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Skeleton containers</h2>
+        <p>Treating the loading state as a replacement for the entire modal or side-sheet container (including headers,
+          footers, and structural chrome) is a mistake. The container boundaries should remain static and visible;
+          only the <em>internal content</em> area should use a skeleton. Skeletonising the full container causes the
+          interface to feel completely formless and gives the user no anchoring reference.</p>
+
+        <!-- Image placeholder -->
+        <div class="post-img-block" id="image11">
+          <div class="post-img post-img--wide" style="background: linear-gradient(135deg, #F5EDCC 0%, #F5DDE8 100%);">
+          </div>
+          <p class="post-caption">image11 — Anti-pattern: full container skeleton (left) vs. correct inner-content skeleton (right)</p>
+        </div>
+
+        <h2 style="font-size: clamp(18px, 1.8vw, 24px); margin-top: 32px;">Visual instability</h2>
+        <p>Avoid drastic layout shifts when transitioning from a loading state to real content. If the skeleton's shape
+          doesn't match the actual content's dimensions, the page will jump and reflow as data arrives, causing the
+          user to lose their place and eroding trust in the interface. The skeleton should be a faithful silhouette of
+          what's coming, not a rough approximation.</p>
+
+        <p>The right loading pattern bridges the gap between system time and user perception. Done well, it's invisible.
+          The user simply feels like things move quickly. Done poorly, it's the detail that quietly erodes trust in an
+          otherwise great product.</p>
+      </section>
+
+    </article>
+  </div>
+
+  <!-- RELATED POSTS -->
+  <section class="related-section">
+    <div class="s-wrap">
+      <div class="related-header fade-up">
+        <span class="eyebrow">Keep reading</span>
+        <h2 class="s-title">Blogs you might also read</h2>
+      </div>
+      <div class="related-grid fade-up">
+
+        <article class="p-card">
+          <a href="post.html" class="p-card-link">
+            <div class="p-in">
+              <span class="p-tag">Process</span>
+              <h3 class="p-title">Why I stopped designing for perfection and started designing for meaning</h3>
+              <p class="p-excerpt">After years of chasing pixel-perfect outcomes, the best work came from a very
+                different kind of intention.</p>
+              <span class="p-time">8 min read</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="p-card">
+          <a href="post.html" class="p-card-link">
+            <div class="p-in">
+              <span class="p-tag">UX</span>
+              <h3 class="p-title">Dark patterns are a quiet design failure</h3>
+              <p class="p-excerpt">When we trick users into doing what we want, we're admitting we don't trust our own
+                design.</p>
+              <span class="p-time">4 min read</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="p-card">
+          <a href="post.html" class="p-card-link">
+            <div class="p-in">
+              <span class="p-tag">Design</span>
+              <h3 class="p-title">The problem with design systems that no one wants to admit</h3>
+              <p class="p-excerpt">Systems are only as good as the culture that maintains them.</p>
+              <span class="p-time">8 min read</span>
+            </div>
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="s-wrap">
+      <div class="footer-inner">
+        <span class="footer-brand">Moksha Writes .</span>
+        <span class="footer-year">© 2026</span>
+      </div>
+    </div>
+    <img src="assets/footer.svg" alt="" class="footer-svg" aria-hidden="true">
+  </footer>
+
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor"></div>
+
+  <script src="post.js"></script>
+</body>
+
+</html>
