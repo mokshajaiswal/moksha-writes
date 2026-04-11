@@ -322,6 +322,11 @@ body.post-page {
   background: linear-gradient(135deg, #F5EDCC 0%, #DDE8F5 100%);
 }
 
+.post-img--full {
+  aspect-ratio: auto;
+  height: auto;
+}
+
 .post-img--portrait {
   aspect-ratio: 4 / 3;
   background: linear-gradient(135deg, #DDF0E4 0%, #F5EEE6 100%);
