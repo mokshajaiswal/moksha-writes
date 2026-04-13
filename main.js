@@ -91,10 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let spacing = 35;
     let edgeBuffer = 96;
     const baseRadius = 2.4;
-    const maxRadius = 55; // Large for overlapping effect
-    const proximity = 220;
-    const displaceAmount = 30; // Increased push
-    const hoverSustain = 50;
+    const maxRadius = 50;
+    const proximity = 190;
+    const displaceAmount = 8;
+    const fadeDuration = 1000; // 1 second memory
 
     class Dot {
       constructor(x, y) {
@@ -104,7 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
         this.y = y;
         this.radius = baseRadius;
         this.targetRadius = baseRadius;
-        this.lastHover = 0;
+        this.intensity = 0;
+        this.lastDx = 0;
+        this.lastDy = 0;
+        this.lastSafeDist = 1;
       }
 
       draw() {
@@ -114,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fill();
       }
 
-      update(mX, mY) {
+      update(mX, mY, dt) {
         const rect = canvas.getBoundingClientRect();
         const relMouseX = mX - rect.left;
         const relMouseY = mY - rect.top;
@@ -124,23 +127,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const distance = Math.sqrt(dx * dx + dy * dy);
         const safeDistance = Math.max(distance, 0.001);
 
-        const now = Date.now();
-
+        // 1. Calculate mouse "charge"
+        let mousePower = 0;
         if (distance < proximity) {
-          this.lastHover = now;
           const ratio = (proximity - distance) / proximity;
-          const power = Math.pow(ratio, 1.25);
+          mousePower = Math.pow(ratio, 1.22); // Slightly softer curve
 
-          this.targetRadius = baseRadius + (maxRadius - baseRadius) * power;
+          this.lastDx = dx;
+          this.lastDy = dy;
+          this.lastSafeDist = safeDistance;
+        }
 
-          this.x = this.baseX - (dx / safeDistance) * (displaceAmount * power);
-          this.y = this.baseY - (dy / safeDistance) * (displaceAmount * power);
-        } else if (now - this.lastHover < hoverSustain) {
-          // Seamless sustain decay
-          const sustainRatio = (now - this.lastHover) / hoverSustain;
-          this.targetRadius = baseRadius + (maxRadius - baseRadius) * 0.2 * (1 - sustainRatio);
-          this.x = this.baseX;
-          this.y = this.baseY;
+        // 2. Peak-memory: dot always hits the highest power felt
+        this.intensity = Math.max(this.intensity, mousePower);
+
+        // 3. Constant decay over fadeDuration
+        if (this.intensity > 0) {
+          this.intensity -= dt / fadeDuration;
+          if (this.intensity < 0) this.intensity = 0;
+        }
+
+        // 4. Update visual targets
+        if (this.intensity > 0) {
+          this.targetRadius = baseRadius + (maxRadius - baseRadius) * this.intensity;
+          this.x = this.baseX - (this.lastDx / this.lastSafeDist) * (displaceAmount * this.intensity);
+          this.y = this.baseY - (this.lastDy / this.lastSafeDist) * (displaceAmount * this.intensity);
         } else {
           this.targetRadius = baseRadius;
           this.x = this.baseX;
@@ -148,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Smoothly transition everything
-        this.radius += (this.targetRadius - this.radius) * 0.25; // Snappier
+        this.radius += (this.targetRadius - this.radius) * 0.22;
       }
     }
 
@@ -187,15 +198,19 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', initCanvas);
     initCanvas();
 
-    function animateDots() {
+    let lastTime = performance.now();
+    function animateDots(currentTime) {
+      const dt = currentTime - lastTime;
+      lastTime = currentTime;
+
       ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
       dots.forEach(dot => {
-        dot.update(mouseX, mouseY);
+        dot.update(mouseX, mouseY, dt);
         dot.draw();
       });
       requestAnimationFrame(animateDots);
     }
-    animateDots();
+    requestAnimationFrame(animateDots);
 
     // Toggle cursor visibility over dots
     const container = canvas.parentElement;
@@ -256,12 +271,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function handleTypewriter() {
     const currentPhrase = phrases[phraseIndex];
-    
+
     if (isErasing) {
       // "Backspace" phase: erase character-by-character
       typewriter.innerHTML = `<em>${currentPhrase.substring(0, charIndex - 1)}</em>`;
       charIndex--;
-      
+
       if (charIndex === 0) {
         isErasing = false;
         phraseIndex = (phraseIndex + 1) % phrases.length;
@@ -274,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const nextPhrase = phrases[phraseIndex];
       typewriter.innerHTML = `<em>${nextPhrase.substring(0, charIndex + 1)}</em>`;
       charIndex++;
-      
+
       if (charIndex === nextPhrase.length) {
         isErasing = true;
         typewriterTimeout = setTimeout(handleTypewriter, 2000); // 2-second pause between phrases
